@@ -9,7 +9,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -62,5 +63,10 @@ public class GlobalExceptionHandler {
                 .fieldErrors(fieldErrors)
                 .build();
         return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})
+    public ResponseEntity<?> handleAuthFailures(Exception ex, HttpServletRequest req) {
+        return build(HttpStatus.UNAUTHORIZED, "Invalid credentials", req.getRequestURI(), null);
     }
 }

@@ -31,6 +31,14 @@ public class User {
     @Column(length = 20)
     private String phone;
 
+    // add imports if needed (none extra required)
+
+    @Column(length = 255)
+    private String password; // BCrypt hash
+
+    @Column(length = 255)
+    private String roles; // e.g. "ROLE_USER" or "ROLE_ADMIN" or "ROLE_USER,ROLE_ADMIN"
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;

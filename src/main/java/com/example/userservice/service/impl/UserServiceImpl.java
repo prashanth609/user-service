@@ -68,4 +68,12 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponse getByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+        return UserMapper.toResponse(user);
+    }
 }

@@ -12,4 +12,5 @@ public interface UserService {
     List<UserResponse> getAll();
     UserResponse update(Long id, UserUpdateRequest request);
     void delete(Long id);
+    UserResponse getByEmail(String email);
 }

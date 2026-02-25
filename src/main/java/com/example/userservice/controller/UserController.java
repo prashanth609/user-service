@@ -8,7 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 @RestController
@@ -43,5 +44,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         userService.delete(id);
+    }
+
+    @GetMapping("/me")
+    public UserResponse me(@AuthenticationPrincipal UserDetails userDetails) {
+        return userService.getByEmail(userDetails.getUsername());
     }
 }
